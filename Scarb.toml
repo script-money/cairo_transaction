@@ -1,0 +1,12 @@
+[package]
+name = "cairo_transaction"
+version = "0.1.0"
+edition = "2023_10"
+description = "Starknet transaction cairo implementation"
+homepage = "https://github.com/script-money/cairo_transaction"
+
+[dependencies]
+starknet = ">=2.4.0"
+
+[scripts]
+test = "scarb cairo-test"
