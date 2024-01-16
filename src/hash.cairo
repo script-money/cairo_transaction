@@ -47,7 +47,48 @@ fn calculate_transaction_hash_common(
     tx_hash
 }
 
-fn compute_transaction_hash(
+fn calculate_declare_transaction_hash(
+    class_hash: felt252,
+    sender_address: ContractAddress,
+    version: felt252,
+    max_fee: felt252,
+    chain_id: felt252,
+    nonce: felt252,
+    compiled_class_hash: felt252
+) -> felt252 {
+    let tx_hash = calculate_transaction_hash_common(
+        'declare',
+        version,
+        sender_address,
+        0,
+        @array![class_hash],
+        max_fee,
+        chain_id,
+        array![nonce, compiled_class_hash]
+    );
+    tx_hash
+}
+
+fn calculate_deploy_transaction_hash(
+    contractAddress: ContractAddress,
+    constructorCalldata: @Array<felt252>,
+    version: felt252,
+    chainId: felt252,
+) -> felt252 {
+    let tx_hash = calculate_transaction_hash_common(
+        'deploy',
+        version,
+        contractAddress,
+        selector!("constructor"),
+        constructorCalldata,
+        0,
+        chainId,
+        array![]
+    );
+    tx_hash
+}
+
+fn calculate_transaction_hash(
     contractAddress: ContractAddress,
     version: felt252,
     calldata: @Array<felt252>,
